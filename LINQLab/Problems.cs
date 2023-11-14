@@ -28,8 +28,8 @@ namespace LINQLab
             //RProblemFive();
 
             //// <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
-            RDemoThree();
-            RProblemSix();
+            //RDemoThree();
+            //RProblemSix();
             //RProblemSeven();
             //RProblemEight();
 
@@ -118,8 +118,19 @@ namespace LINQLab
         public void RProblemThree()
         {
             // Write a LINQ query that gets each product whose name that CONTAINS an "s".
+            var productsThatContainS = _context.Products.Where(Product => Product.Name.Contains("s", StringComparison.OrdinalIgnoreCase))
+                .ToList();
 
-            
+            Console.WriteLine("RProblemThree: Users with Names Containing 's'");
+
+            foreach (var product in productsThatContainS)
+
+            {
+
+                Console.WriteLine(product.Name);
+
+            }
+
         }
         /*
             Expected Result:
@@ -139,8 +150,22 @@ namespace LINQLab
         {
             // Write a LINQ query that gets all the users who registered BEFORE 2016.
             // Then print each user's email and registration date to the console.
-           
-           
+            var before2016count = _context.Users
+            .Where(user => user.RegistrationDate < new DateTime(2016, 1, 1))
+            .ToList();
+
+            Console.WriteLine("Users Registrated Before 2016");
+
+            foreach (var user in before2016count)
+
+            {
+
+                Console.WriteLine($"Email: {user.Email}");
+
+                Console.WriteLine($"Registration Date: {user.RegistrationDate}");
+
+            }
+
         }
         /*
             Expected Result:
@@ -155,8 +180,8 @@ namespace LINQLab
         {
             // Write a LINQ query that gets all of the users who registered AFTER 2016 and BEFORE 2018.
             // Then print each user's email and registration date to the console.
+          
 
-           
         }
         /*
             Expected Result:
