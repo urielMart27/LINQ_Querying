@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using LINQLab.Models;
 using System.Collections.Generic;
 using System.Data;
+using System.Configuration;
 
 namespace LINQLab
 {
@@ -18,7 +19,7 @@ namespace LINQLab
         public void RunLINQQueries()
         {
             //// <><><><><><><><> R Actions (Read) <><><><><><><><><>
-            RDemoOne();
+            //RDemoOne();
             //RProblemOne();
             //RDemoTwo();
             //RProblemTwo();
@@ -27,8 +28,8 @@ namespace LINQLab
             //RProblemFive();
 
             //// <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
-            //RDemoThree();
-            //RProblemSix();
+            RDemoThree();
+            RProblemSix();
             //RProblemSeven();
             //RProblemEight();
 
@@ -68,7 +69,8 @@ namespace LINQLab
         private void RProblemOne()
         {
             // Print the COUNT of all the users from the User table.
-
+            var count = _context.Users.Count();
+            Console.WriteLine($"RProblemOne: Total number of users: {count}");
         }
 
         /*
@@ -91,6 +93,12 @@ namespace LINQLab
         {
             // Write a LINQ query that gets each product whose price is less than or equal to $100.
             // Print the name and price of all products
+            var productsUnder100 = _context.Products.Where(p => p.Price <= 100);
+            Console.WriteLine("RProblemTwo: Products less than or equal to $100");
+            foreach (Product product in productsUnder100)
+            {
+                Console.WriteLine($"{product.Name} - ${product.Price}");
+            }
 
         }
 
@@ -110,6 +118,8 @@ namespace LINQLab
         public void RProblemThree()
         {
             // Write a LINQ query that gets each product whose name that CONTAINS an "s".
+
+            
         }
         /*
             Expected Result:
@@ -129,7 +139,8 @@ namespace LINQLab
         {
             // Write a LINQ query that gets all the users who registered BEFORE 2016.
             // Then print each user's email and registration date to the console.
-
+           
+           
         }
         /*
             Expected Result:
@@ -145,6 +156,7 @@ namespace LINQLab
             // Write a LINQ query that gets all of the users who registered AFTER 2016 and BEFORE 2018.
             // Then print each user's email and registration date to the console.
 
+           
         }
         /*
             Expected Result:
@@ -169,8 +181,7 @@ namespace LINQLab
         {
             // Write a LINQ query that retrieves all of the products in the shopping cart of the user who has the email "afton@gmail.com".
             // Then print the product's name, price, and quantity to the console.
-
-
+          
         }
         /*
             Expected Result:
