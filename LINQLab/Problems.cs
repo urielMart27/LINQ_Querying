@@ -29,9 +29,9 @@ namespace LINQLab
 
             ////// <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
             //RDemoThree();
-            RProblemSix();
+            //RProblemSix();
             //RProblemSeven();
-            //RProblemEight();
+            RProblemEight();
 
             //// <><><><><><><><> CUD (Create, Update, Delete) Actions <><><><><><><><><>
 
@@ -258,6 +258,12 @@ namespace LINQLab
             // HINT: End of query will be: .Select(sc => sc.Product.Price).Sum();
             // Print the total of the shopping cart to the console.
             // Remember to break the problem down and take it one step at a time!
+            var sumOfShoppingCartItems = _context.ShoppingCartItems
+                .Where(item => item.User.Email == "oda@gmail.com")
+                .Select(sc => sc.Product.Price)
+                .Sum();
+
+            Console.WriteLine($"Total: ${sumOfShoppingCartItems}");
 
 
         }
@@ -269,6 +275,32 @@ namespace LINQLab
         {
             // Write a query that retrieves all of the products in the shopping cart of users who have the role of "Employee".
             // Then print the product's name, price, and quantity to the console along with the email of the user that has it in their cart.
+            var employeeCartItems = _context.ShoppingCartItems
+                .Where(item => item.User.UserRoles.Any(role => role.Role.RoleName == "Employee"))
+                .Select(item => new
+                {
+                    UserEmail = item.User.Email,
+                    ProductName = item.Product.Name,
+                    ProductPrice = item.Product.Price,
+                    ProductQuantity = item.Quantity
+                })
+                .ToList();
+
+            Console.WriteLine("Products in the Shopping Carts of Employees");
+            Console.WriteLine();
+            foreach (var item in employeeCartItems)
+            {
+                Console.WriteLine($"User Email: {item.UserEmail}");
+                Console.WriteLine("-----------");
+                Console.WriteLine($"Product Name: {item.ProductName}");
+                Console.WriteLine($"Price: {item.ProductPrice}");
+                Console.WriteLine($"Quantity: {item.ProductQuantity}");
+                Console.WriteLine();
+                Console.WriteLine();
+
+
+            }
+
 
         }
         /*
