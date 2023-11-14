@@ -22,14 +22,14 @@ namespace LINQLab
             //RDemoOne();
             //RProblemOne();
             //RDemoTwo();
-            //RProblemTwo();
-            //RProblemThree();
-            //RProblemFour();
-            //RProblemFive();
+            ////RProblemTwo();
+            ////RProblemThree();
+            ////RProblemFour();
+            ///*RProblemFive*/();
 
-            //// <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
+            ////// <><><><><><><><> R Actions (Read) with Foreign Keys <><><><><><><><><>
             //RDemoThree();
-            //RProblemSix();
+            RProblemSix();
             //RProblemSeven();
             //RProblemEight();
 
@@ -126,9 +126,7 @@ namespace LINQLab
             foreach (var product in productsThatContainS)
 
             {
-
                 Console.WriteLine(product.Name);
-
             }
 
         }
@@ -161,7 +159,6 @@ namespace LINQLab
             {
 
                 Console.WriteLine($"Email: {user.Email}");
-
                 Console.WriteLine($"Registration Date: {user.RegistrationDate}");
 
             }
@@ -180,7 +177,19 @@ namespace LINQLab
         {
             // Write a LINQ query that gets all of the users who registered AFTER 2016 and BEFORE 2018.
             // Then print each user's email and registration date to the console.
-          
+            var usersRegisteredAfter2016Before2018 = _context.Users
+                .Where(user => user.RegistrationDate > new DateTime(2016, 1, 1) && user.RegistrationDate < new DateTime(2018, 1, 1))
+                .ToList();
+
+            Console.WriteLine("Users Registrated After 2016 and Before 2018");
+
+            foreach (var user in usersRegisteredAfter2016Before2018)
+
+            {
+                Console.WriteLine($"Email: {user.Email}");
+                Console.WriteLine($"Registration Date: {user.RegistrationDate}");
+
+            }
 
         }
         /*
@@ -206,7 +215,23 @@ namespace LINQLab
         {
             // Write a LINQ query that retrieves all of the products in the shopping cart of the user who has the email "afton@gmail.com".
             // Then print the product's name, price, and quantity to the console.
-          
+            var productsInUsersShoppingCart = _context.ShoppingCartItems
+                .Where(item => item.User.Email == "afton@gmail.com")
+                .Select(item => new 
+                { ProductName = item.Product.Name, ProductPrice = item.Product.Price, ProductQuantity = item.Quantity})
+                .ToList();
+
+            Console.WriteLine("RProblemSix: Products In Users Shopping Cart");
+            Console.WriteLine();
+            foreach (var item in productsInUsersShoppingCart)
+
+            {
+                Console.WriteLine($"Name: {item.ProductName}");
+                Console.WriteLine($"Price: {item.ProductPrice}");
+                Console.WriteLine($"Quantity:{item.ProductQuantity}");
+                Console.WriteLine();
+            }
+
         }
         /*
             Expected Result:
