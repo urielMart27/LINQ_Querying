@@ -31,7 +31,7 @@ namespace LINQLab
             //RDemoThree();
             //RProblemSix();
             //RProblemSeven();
-            RProblemEight();
+            //RProblemEight();
 
             //// <><><><><><><><> CUD (Create, Update, Delete) Actions <><><><><><><><><>
 
@@ -39,7 +39,7 @@ namespace LINQLab
             //CDemoOne();
             //CProblemOne();
             //CDemoTwo();
-            //CProblemTwo();
+            CProblemTwo();
 
             //// <><> U Actions (Update) <><>
             //UDemoOne();
@@ -350,8 +350,15 @@ namespace LINQLab
         private void CProblemOne()
         {
             // Create a new Product object and add that product to the Products table. Choose any name and product info you like.
-
-
+            Product newProduct = new Product()
+            {
+               
+                Name = "Playstation 4",
+                Description = "Gaming Console",
+                Price = 500
+            };
+            _context.Products.Add(newProduct);
+            _context.SaveChanges();
         }
 
         public void CDemoTwo()
@@ -373,7 +380,15 @@ namespace LINQLab
         {
             // Create a new ShoppingCartItem to represent the new product you created in CProblemOne being added to the shopping cart of the user created in CDemoOne.
             // This will add a new row to ShoppingCart junction table.
-
+            var produtId = _context.Products.Where(p => p.Name == "Playstation 4").Select(r => r.Id).SingleOrDefault();
+            var userId = _context.Users.Where(u => u.Email == "david@gmail.com").Select(u => u.Id).SingleOrDefault();
+            ShoppingCartItem newShoppingCartItem = new ShoppingCartItem()
+            {
+                UserId = userId,
+                ProductId = produtId
+            };
+            _context.ShoppingCartItems.Add(newShoppingCartItem);
+            _context.SaveChanges();
 
         }
 
