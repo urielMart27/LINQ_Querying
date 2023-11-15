@@ -44,12 +44,12 @@ namespace LINQLab
             //// <><> U Actions (Update) <><>
             //UDemoOne();
             //UProblemOne();
-            UProblemTwo();
+            //UProblemTwo();
 
             //// <><> D Actions (Delete) <><>
             //DDemoOne();
             //DProblemOne();
-            //DProblemTwo();
+            DProblemTwo();
         }
 
         // <><><><><><><><> R Actions (Read) <><><><><><><><><>
@@ -453,13 +453,25 @@ namespace LINQLab
         {
             // Delete all of the product relationships to the user with the email "oda@gmail.com" in the ShoppingCart table using LINQ.
             // HINT: Use a Loop
+            User userToDelete = _context.Users.FirstOrDefault(user => user.Email == "oda@gmail.com");
 
+            var productsInCart = _context.ShoppingCartItems
+                .Where(item => item.UserId == userToDelete.Id)
+                .ToList();
+            foreach (var productInCart in productsInCart)
+            {
+                _context.ShoppingCartItems.Remove(productInCart);
+                 
+            }
+            _context.SaveChanges();
         }
 
         private void DProblemTwo()
         {
             // Delete the user with the email "oda@gmail.com" from the Users table using LINQ.
-
+            var user = _context.Users.Where(u => u.Email == "oda@gmail.com").SingleOrDefault();
+            _context.Users.Remove(user);
+            _context.SaveChanges();
 
 
         }
