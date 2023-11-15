@@ -39,12 +39,12 @@ namespace LINQLab
             //CDemoOne();
             //CProblemOne();
             //CDemoTwo();
-            CProblemTwo();
+            //CProblemTwo();
 
             //// <><> U Actions (Update) <><>
             //UDemoOne();
             //UProblemOne();
-            //UProblemTwo();
+            UProblemTwo();
 
             //// <><> D Actions (Delete) <><>
             //DDemoOne();
@@ -408,7 +408,10 @@ namespace LINQLab
         private void UProblemOne()
         {
             // Update the price of the product you created in CProblemOne to something different using LINQ.
-
+            var product = _context.Products.Where(p => p.Price == 500).SingleOrDefault();
+            product.Price = 450;
+            _context.Products.Update(product);
+            _context.SaveChanges();
 
         }
 
@@ -417,6 +420,20 @@ namespace LINQLab
             // Change the role of the user we created to "Employee"
             // HINT: You need to delete the existing role relationship and then create a new Userrole object and add it to the Userroles table
             // See the DDemoOne below as an example of removing a role relationship
+            var oldRole = _context.UserRoles.Where(u => u.Id == 6).SingleOrDefault();
+            _context.UserRoles.Remove(oldRole);
+            _context.SaveChanges();
+
+            var roleId = _context.Roles.Where(r => r.RoleName == "Employee").Select(r => r.Id).SingleOrDefault();
+            var userId = _context.Users.Where(u => u.Email == "dan@gmail.com").Select(u => u.Id).SingleOrDefault();
+            UserRole newUserRole = new UserRole()
+            {
+                UserId = userId,
+                RoleId = roleId
+            };
+            _context.UserRoles.Add(newUserRole);
+            _context.SaveChanges();
+
 
         }
 
